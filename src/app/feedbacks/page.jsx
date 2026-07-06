@@ -9,12 +9,12 @@ export const metadata = {
 }
 
 const getFeedbacks = async () => {
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/feedback`, {cache: 'force-cache', next: { revalidate:60 }})
-    // return await res.json()
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/feedback`, { next: { revalidate:60 }})
+    return await res.json()
 
-    const collection = connect("feedbacks")
-    const feedbacks = await collection.find().toArray()
-    return feedbacks
+//     const collection = connect("feedbacks")
+//     const feedbacks = await collection.find().toArray()
+//     return feedbacks
 }
 const FeedbackPage = async () => {
     const feedbacks = await getFeedbacks()
