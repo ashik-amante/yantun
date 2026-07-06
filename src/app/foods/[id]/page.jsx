@@ -12,6 +12,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const food = await getSingleFood(id);
+  if(!food){
+    return {
+      title: 'No food item found!',
+      description: 'Best Restaurent in noakhali',
+    };
+  }
   return {
     title: food.title,
     description: 'Best Restaurent in noakhali',
@@ -19,9 +25,7 @@ export async function generateMetadata({ params }) {
 }
 const getSingleFood = async (id) => {
   try {
-    const res = await fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`, {
-      cache: 'no-store' // Ensures fresh data, or use next: { revalidate: 3600 }
-    });
+    const res = await fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}` );
     
     if (!res.ok) return null;
     
@@ -37,7 +41,7 @@ const FoodDetails = async ({ params }) => {
   const { id } = await params;
   const food = await getSingleFood(id);
 
-  if (!food.title) {
+  if (!food?.title) {
     redirect('/foods');
     // return (
     //   <div className="min-h-[50vh] flex items-center justify-center">
